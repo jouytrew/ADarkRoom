@@ -38,10 +38,13 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     //<editor-fold defaultstate="collapsed" desc="AbstractMethods">
     @Override
     public void initializeEnvironment() {
-        grid = new Grid(51, 51, 15, 15, new Point(50, 50), Color.BLACK);
+        grid = new Grid(101, 101, 15, 15, new Point(25, 25), Color.BLACK);
         human_bean = new Character();
         human_bean.setMapDrawData(this);
         mapPoints = new ArrayList<>();
+        
+        mapPoint[][] mapPointsBeta = new mapPoint[grid.getColumns()][grid.getRows()];
+        
         setObjects(new ArrayList<>());
         visiblePoints = new ArrayList<>();
     }
@@ -53,11 +56,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleasedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_A) {
             human_bean.setLocation(new Point(human_bean.getLocation().x - 1, human_bean.getLocation().y));
             updateScannedArea();
@@ -74,6 +72,26 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
             objects.add(new Object(ObjectType.T_PLANET, new Point(2, 2), this));
             objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
         }
+    }
+
+    @Override
+    public void keyReleasedHandler(KeyEvent e) {
+//        if (e.getKeyCode() == KeyEvent.VK_A) {
+//            human_bean.setLocation(new Point(human_bean.getLocation().x - 1, human_bean.getLocation().y));
+//            updateScannedArea();
+//        } else if (e.getKeyCode() == KeyEvent.VK_W) {
+//            human_bean.setLocation(new Point(human_bean.getLocation().x, human_bean.getLocation().y - 1));
+//            updateScannedArea();
+//        } else if (e.getKeyCode() == KeyEvent.VK_D) {
+//            human_bean.setLocation(new Point(human_bean.getLocation().x + 1, human_bean.getLocation().y));
+//            updateScannedArea();
+//        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+//            human_bean.setLocation(new Point(human_bean.getLocation().x, human_bean.getLocation().y + 1));
+//            updateScannedArea();
+//        } else if (e.getKeyCode() == KeyEvent.VK_B) {
+//            objects.add(new Object(ObjectType.T_PLANET, new Point(2, 2), this));
+//            objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
+//        }
     }
 
     @Override

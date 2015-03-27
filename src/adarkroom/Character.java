@@ -22,12 +22,12 @@ public class Character {
         graphics.setColor(Color.WHITE);
 //        graphics.fillRect(topLeft.x, topLeft.y, mapDrawData.getCellWidth(), mapDrawData.getCellHeight());
 //        graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("Courier New", Font.PLAIN, 12));
-        graphics.drawString("@", topLeft.x, topLeft.y + mapDrawData.getCellHeight());
+        graphics.setFont(new Font("Courier New", Font.PLAIN, 10));
+        graphics.drawString("@", topLeft.x, topLeft.y + 3*mapDrawData.getCellHeight()/4);
         graphics.drawString("Difficulty " + getDifficulty(), 20, 20);
     }
 
-    private Point STARTING_POINT = new Point(25, 25);
+    private Point STARTING_POINT = new Point(50, 50);
     private Point location = STARTING_POINT;
     private MapDrawDataIntf mapDrawData;
     private int difficulty;
