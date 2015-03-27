@@ -44,7 +44,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         mapPoints = new ArrayList<>();
         setObjects(new ArrayList<>());
         visiblePoints = new ArrayList<>();
-        
     }
 
     @Override
