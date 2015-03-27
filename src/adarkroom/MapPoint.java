@@ -9,6 +9,6 @@ package adarkroom;
  *
  * @author Benjamin
  */
-public class GridLocation {
-    
+public class MapPoint {
+    boolean visible;
 }

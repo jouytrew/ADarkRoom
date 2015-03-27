@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 public class Character {
 
+    //<editor-fold defaultstate="collapsed" desc="paintCharacter">
     void paint(Graphics graphics) {
         Point topLeft = mapDrawData.getCellSystemCoordinate(getLocation());
         graphics.setColor(Color.WHITE);
@@ -24,45 +25,64 @@ public class Character {
 //        graphics.setColor(Color.BLACK);
         graphics.setFont(new Font("Courier New", Font.PLAIN, 10));
         graphics.drawString("@", topLeft.x, topLeft.y + 3*mapDrawData.getCellHeight()/4);
+        graphics.setColor(Color.BLACK);
         graphics.drawString("Difficulty " + getDifficulty(), 20, 20);
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Fields">
     private Point STARTING_POINT = new Point(50, 50);
     private Point location = STARTING_POINT;
     private MapDrawDataIntf mapDrawData;
     private int difficulty;
     private ArrayList<Point> revealedLocations;
-    private int STARTING_SCANNED_AREA = 2;
-    private int scannedArea = STARTING_SCANNED_AREA;
+    private int STARTING_SCANNED_RADIUS = 2;
+    private int scanRadius = STARTING_SCANNED_RADIUS;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Setters/Getters">
     /**
      * @return the location
      */
     public Point getLocation() {
         return location;
     }
-
+    
     /**
      * @param location the location to set
      */
     public void setLocation(Point location) {
         this.location = location;
     }
-
+    
     /**
      * @return the mapDrawData
      */
     public MapDrawDataIntf getMapDrawData() {
         return mapDrawData;
     }
-
+    
     /**
      * @param mapDrawData the mapDrawData to set
      */
     public void setMapDrawData(MapDrawDataIntf mapDrawData) {
         this.mapDrawData = mapDrawData;
     }
-
+    
+    /**
+     * @return the scannedArea
+     */
+    public int getScannedArea() {
+        return scanRadius;
+    }
+    
+    /**
+     * @param scannedArea the scannedArea to set
+     */
+    public void setScannedArea(int scannedArea) {
+        this.scanRadius = scannedArea;
+    }
+    
     /**
      * @return the Difficulty
      */
@@ -77,55 +97,46 @@ public class Character {
     public void setDifficulty(int Difficulty) {
         this.difficulty = Difficulty;
     }
-
-    void drawScanned(Graphics graphics) {
-        for (Point revealedLocation : getSafeRevealedLocations()) {
-            Point topLeft = mapDrawData.getCellSystemCoordinate(revealedLocation);
-            graphics.setColor(new Color(255, 0, 0, 50));
-            graphics.fillRect(topLeft.x, topLeft.y, mapDrawData.getCellWidth(), mapDrawData.getCellHeight());
-        }
-    }
-
-    public ArrayList<Point> getScannedLocations() {
-        revealedLocations = new ArrayList<>();
-        for (int i = -scannedArea; i < scannedArea + 1; i++) {
-            for (int j = -(scannedArea - Math.abs(i)); j < (scannedArea - Math.abs(i) + 1); j++) {
-		revealedLocations.add(new Point(getLocation().x + j, getLocation().y + i));
-            }
-        }
-        return revealedLocations;
-    }
-
+    
     /**
      * @param revealedLocations the revealedLocations to set
      */
     public void setRevealedLocations(ArrayList<Point> revealedLocations) {
         this.revealedLocations = revealedLocations;
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Other Methods">
+    void drawScanned(Graphics graphics) {
+        //Draw the area the character can see
+        for (Point revealedLocation : getSafeScannedLocation()) {
+            Point topLeft = mapDrawData.getCellSystemCoordinate(revealedLocation);
+            graphics.setColor(new Color(255, 0, 0, 50));
+            graphics.fillRect(topLeft.x, topLeft.y, mapDrawData.getCellWidth(), mapDrawData.getCellHeight());
+        }
+    }
+    
+    public ArrayList<Point> getScannedLocations() {
+        //Neat awesome code that draws a diamond with the radius of whatever scanRadius is
+        revealedLocations = new ArrayList<>();
+        for (int i = -scanRadius; i < scanRadius + 1; i++) {
+            for (int j = -(scanRadius - Math.abs(i)); j < (scanRadius - Math.abs(i) + 1); j++) {
+                revealedLocations.add(new Point(getLocation().x + j, getLocation().y + i));
+            }
+        }
+        return revealedLocations;
+    }
+    
     /**
      * @return the safeRevealedLocations
      */
-    public ArrayList<Point> getSafeRevealedLocations() {
+    public ArrayList<Point> getSafeScannedLocation() {
         ArrayList<Point> safeRevealedLocations = new ArrayList<>();
         for (Point score : getScannedLocations()) {
             safeRevealedLocations.add(score);
         }
         return safeRevealedLocations;
     }
-
-    /**
-     * @return the scannedArea
-     */
-    public int getScannedArea() {
-        return scannedArea;
-    }
-
-    /**
-     * @param scannedArea the scannedArea to set
-     */
-    public void setScannedArea(int scannedArea) {
-        this.scannedArea = scannedArea;
-    }
+//</editor-fold>
 
 }

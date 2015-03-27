@@ -21,10 +21,6 @@ import java.util.ArrayList;
  * @author Benjamin
  */
 class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
-    
-    {
-        
-    }
 
     public ADarkRoomEnvironment() {
         for (int i = 0; i < grid.getRows(); i++) {
@@ -36,6 +32,7 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     }
 
     //<editor-fold defaultstate="collapsed" desc="AbstractMethods">
+    //<editor-fold defaultstate="collapsed" desc="initializeEnvironment">
     @Override
     public void initializeEnvironment() {
         grid = new Grid(101, 101, 15, 15, new Point(25, 25), Color.BLACK);
@@ -43,17 +40,21 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         human_bean.setMapDrawData(this);
         mapPoints = new ArrayList<>();
         
-        mapPoint[][] mapPointsBeta = new mapPoint[grid.getColumns()][grid.getRows()];
+        MapPoint[][] mapPointsBeta = new MapPoint[grid.getColumns()][grid.getRows()];
         
         setObjects(new ArrayList<>());
         visiblePoints = new ArrayList<>();
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="timerTaskHandler">
     @Override
     public void timerTaskHandler() {
-
+        
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="keyPressedHandler">
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -73,7 +74,9 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
             objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
         }
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="keyReleasedHandler">
     @Override
     public void keyReleasedHandler(KeyEvent e) {
 //        if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -93,12 +96,16 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
 //            objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
 //        }
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="environmentMouseClicked">
     @Override
     public void environmentMouseClicked(MouseEvent e) {
-
+        
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="paintEnvironment">
     @Override
     public void paintEnvironment(Graphics graphics) {
         //<editor-fold defaultstate="collapsed" desc="Antialias">
@@ -122,16 +129,17 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
             
         }
         for (Object object : getObjects()) {
-                if (visiblePoints.contains(object.getLocation())) {
-                    object.paintObject(graphics);
-                }
+            if (visiblePoints.contains(object.getLocation())) {
+                object.paintObject(graphics);
             }
+        }
         if (human_bean != null/** && human_bean.getScannedLocations() != null*/) {
             human_bean.paint(graphics);
 //            human_bean.drawScanned(graphics);
         }
-
+        
     }
+//</editor-fold>
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Fields">
@@ -141,13 +149,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     private ArrayList<Object> objects = new ArrayList<>();
     private Character human_bean;
 //</editor-fold>
-
-    /**
-     * @param gridLocations the gridLocations to set
-     */
-    public void setGridLocations(ArrayList<Point> gridLocations) {
-        this.mapPoints = gridLocations;
-    }
 
     //<editor-fold defaultstate="collapsed" desc="MapDrawDataIntf">
     /**
@@ -184,19 +185,56 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Setters/Getters">
     /**
      * @return the gridPoints
      */
     public ArrayList<Object> getGridPoints() {
         return getObjects();
     }
-
+    
+    /**
+     * @param gridLocations the gridLocations to set
+     */
+    public void setGridLocations(ArrayList<Point> gridLocations) {
+        this.mapPoints = gridLocations;
+    }
+    
     /**
      * @param gridPoints the gridPoints to set
      */
     public void setGridPoints(ArrayList<Object> gridPoints) {
         this.setObjects(gridPoints);
     }
+    
+    /**
+     * @return the visiblePoints
+     */
+    public ArrayList<Point> getVisiblePoints() {
+        return visiblePoints;
+    }
+    
+    /**
+     * @param visiblePoints the visiblePoints to set
+     */
+    public void setVisiblePoints(ArrayList<Point> visiblePoints) {
+        this.visiblePoints = visiblePoints;
+    }
+    
+    /**
+     * @return the objects
+     */
+    public ArrayList<Object> getObjects() {
+        return objects;
+    }
+    
+    /**
+     * @param objects the objects to set
+     */
+    public void setObjects(ArrayList<Object> objects) {
+        this.objects = objects;
+    }
+//</editor-fold>
 
     public void updateScannedArea() {
         for (Point revealedLocation : human_bean.getScannedLocations()) {
@@ -204,34 +242,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
                 getVisiblePoints().add(revealedLocation);
             }
         }
-    }
-
-    /**
-     * @return the visiblePoints
-     */
-    public ArrayList<Point> getVisiblePoints() {
-        return visiblePoints;
-    }
-
-    /**
-     * @param visiblePoints the visiblePoints to set
-     */
-    public void setVisiblePoints(ArrayList<Point> visiblePoints) {
-        this.visiblePoints = visiblePoints;
-    }
-
-    /**
-     * @return the objects
-     */
-    public ArrayList<Object> getObjects() {
-        return objects;
-    }
-
-    /**
-     * @param objects the objects to set
-     */
-    public void setObjects(ArrayList<Object> objects) {
-        this.objects = objects;
     }
 
 }
