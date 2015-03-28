@@ -26,8 +26,6 @@ public class Object {
         Point topLeft = gridDrawData.getCellSystemCoordinate(getLocation());
         switch (type) {
             case T_PLANET:
-//                graphics.setColor(Color.BLUE);
-//                graphics.fillOval(topLeft.x, topLeft.y, gridDrawData.getCellWidth(), gridDrawData.getCellHeight());
                 graphics.drawImage(Earth, topLeft.x, topLeft.y, null);
                 break;
             case G_GIANT:
@@ -41,7 +39,7 @@ public class Object {
     private ObjectType type;
     private Point location;
     private MapDrawDataIntf gridDrawData;
-    private Image Earth = ResourceTools.loadImageFromResource("resources/Earth.gif");
+    private Image Earth = ResourceTools.loadImageFromResource("resources/EarthHalfDark.gif");
     private Image Saturn = ResourceTools.loadImageFromResource("resources/RingedGas.gif");
 
     /**

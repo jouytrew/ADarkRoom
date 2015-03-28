@@ -12,6 +12,4 @@ package adarkroom;
 public enum ObjectType {
     T_PLANET, STAR, ASTEROID, COMET, G_GIANT, NEBULA, MOON, ENEMY
     
-    // Maybe things that move on the map (comet/enemy) are their own classes
-    // Maybe Planets and so on should be their own classes too
 }
