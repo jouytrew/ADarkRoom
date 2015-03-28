@@ -21,7 +21,22 @@ import java.util.ArrayList;
  * @author Benjamin
  */
 class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Agenda">
+    /**
+     * V1.0 Alpha (27/03/15) (Finish the following by 03/04/15)
+     * - implement the following:
+     *      - Fuel (A nice icon would be cool)
+     *      - Starting Asteroid with complimentary map (Need graphics designer)
+     *      - Map Portals (Enter a new map when you step on a planet in the system Map)
+     * - change:
+     *      - visiblePoints from ArrayList to mapPoints[][] 2D Array that stores visibility
+     * - suggestions?:
+     *      - enter here
+     */
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="ADarkRoom(Not Really)Environment">
     public ADarkRoomEnvironment() {
         for (int i = 0; i < grid.getRows(); i++) {
             for (int j = 0; j < grid.getRows(); j++) {
@@ -30,6 +45,7 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         }
         updateScannedArea();
     }
+//</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="AbstractMethods">
     //<editor-fold defaultstate="collapsed" desc="initializeEnvironment">
@@ -236,6 +252,7 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Other Methods">
     public void updateScannedArea() {
         for (Point revealedLocation : human_bean.getScannedLocations()) {
             if (!getVisiblePoints().contains(revealedLocation) && mapPoints.contains(revealedLocation)){
@@ -243,5 +260,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
             }
         }
     }
+//</editor-fold>
 
 }
