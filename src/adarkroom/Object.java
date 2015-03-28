@@ -18,10 +18,13 @@ import java.awt.Point;
  */
 public class Object {
 
+    //<editor-fold defaultstate="collapsed" desc="Constructor">
     public Object(ObjectType type, Point location, MapDrawDataIntf mapDrawData) {
         this.type = type; this.location = location; this.gridDrawData = mapDrawData;
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="paintObject">
     public void paintObject(Graphics graphics) {
         Point topLeft = gridDrawData.getCellSystemCoordinate(getLocation());
         switch (type) {
@@ -35,53 +38,58 @@ public class Object {
                 break;
         }
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Fields">
     private ObjectType type;
     private Point location;
     private MapDrawDataIntf gridDrawData;
     private Image Earth = ResourceTools.loadImageFromResource("resources/EarthHalfDark.gif");
     private Image Saturn = ResourceTools.loadImageFromResource("resources/RingedGas.gif");
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     /**
      * @return the type
      */
     public ObjectType getType() {
         return type;
     }
-
+    
     /**
      * @param type the type to set
      */
     public void setType(ObjectType type) {
         this.type = type;
     }
-
+    
     /**
      * @return the location
      */
     public Point getLocation() {
         return location;
     }
-
+    
     /**
      * @param location the location to set
      */
     public void setLocation(Point location) {
         this.location = location;
     }
-
+    
     /**
      * @return the mapDrawData
      */
     public MapDrawDataIntf getMapDrawData() {
         return gridDrawData;
     }
-
+    
     /**
      * @param mapDrawData the mapDrawData to set
      */
     public void setMapDrawData(MapDrawDataIntf mapDrawData) {
         this.gridDrawData = mapDrawData;
     }
+//</editor-fold>
 
 }

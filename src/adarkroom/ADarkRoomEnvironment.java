@@ -30,11 +30,12 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
      *      - Starting Asteroid with complimentary map (Need graphics designer)
      *      - Map Portals (Enter a new map when you step on a planet in the system Map)
      * - change:
-     *      - visiblePoints from ArrayList to mapPoints[][] 2D Array that stores visibility
+     *      - (Apparently done) visiblePoints from ArrayList to mapPoints[][] 2D Array that stores visibility 
      * - suggestions?:
      *      - enter here
      */
 //</editor-fold>
+    
     
     //<editor-fold defaultstate="collapsed" desc="ADarkRoom(Not Really)Environment">
     public ADarkRoomEnvironment() {
@@ -43,6 +44,7 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
                 mapPoints.add(new Point(j, i));
             }
         }
+        
         updateScannedArea();
     }
 //</editor-fold>
@@ -56,10 +58,16 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         human_bean.setMapDrawData(this);
         mapPoints = new ArrayList<>();
         
-        MapPoint[][] mapPointsBeta = new MapPoint[grid.getColumns()][grid.getRows()];
+        setMapPointsBeta(new int[grid.getColumns()][grid.getRows()]);
         
         setObjects(new ArrayList<>());
-        visiblePoints = new ArrayList<>();
+//        visiblePoints = new ArrayList<>();
+        
+        for (int i = 0; i < grid.getColumns(); i++) {
+            for (int j = 0; j < grid.getRows(); j++) {
+                getMapPointsBeta()[i][j] = 0;
+            }
+        }
     }
 //</editor-fold>
 
@@ -135,19 +143,25 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
 //</editor-fold>
         for (Point mapPoint : mapPoints) {
             Point topLeft = grid.getCellSystemCoordinate(mapPoint);
-            graphics.setColor(Color.GRAY);
+            if (visiblePointsBeta[mapPoint.getLocation().x][mapPoint.getLocation().y] == 1) {
+                graphics.setColor(Color.BLACK);
+            } else {
+                graphics.setColor(Color.GRAY);
+            }
             graphics.fillRect(topLeft.x, topLeft.y, grid.getCellWidth(), grid.getCellHeight());
         }
-        for (Point visiblePoint : getVisiblePoints()) {
-            Point topLeft = grid.getCellSystemCoordinate(visiblePoint);
-            graphics.setColor(Color.BLACK);
-            graphics.fillRect(topLeft.x, topLeft.y, grid.getCellWidth(), grid.getCellHeight());
-            
-        }
+//        for (Point visiblePoint : getVisiblePoints()) {
+//            Point topLeft = grid.getCellSystemCoordinate(visiblePoint);
+//            graphics.setColor(Color.BLACK);
+//            graphics.fillRect(topLeft.x, topLeft.y, grid.getCellWidth(), grid.getCellHeight());
+//        }
         for (Object object : getObjects()) {
-            if (visiblePoints.contains(object.getLocation())) {
+            if (visiblePointsBeta[object.getLocation().x][object.getLocation().y] == 1) {
                 object.paintObject(graphics);
             }
+//            if (visiblePoints.contains(object.getLocation())) {
+//                object.paintObject(graphics);
+//            }
         }
         if (human_bean != null/** && human_bean.getScannedLocations() != null*/) {
             human_bean.paint(graphics);
@@ -164,6 +178,7 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     private ArrayList<Point> visiblePoints = new ArrayList<>();
     private ArrayList<Object> objects = new ArrayList<>();
     private Character human_bean;
+    private int[][] visiblePointsBeta = new int[grid.getColumns()][grid.getRows()];
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="MapDrawDataIntf">
@@ -201,6 +216,24 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Other Methods">
+//    public void updateScannedArea() {
+//        for (Point revealedLocation : human_bean.getScannedLocations()) {
+//            if (!getVisiblePoints().contains(revealedLocation) && mapPoints.contains(revealedLocation)){
+//                getVisiblePoints().add(revealedLocation);
+//            }
+//        }
+//    }
+    public void updateScannedArea() {
+        for (Point revealedLocation : human_bean.getScannedLocations()) {
+            if (mapPoints.contains(revealedLocation)) {
+                visiblePointsBeta[revealedLocation.x][revealedLocation.y] = 1;
+            }
+        }
+    }
+    
+//</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Setters/Getters">
     /**
      * @return the gridPoints
@@ -250,15 +283,19 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     public void setObjects(ArrayList<Object> objects) {
         this.objects = objects;
     }
-//</editor-fold>
+    
+    /**
+     * @return the mapPointsBeta
+     */
+    public int[][] getMapPointsBeta() {
+        return visiblePointsBeta;
+    }
 
-    //<editor-fold defaultstate="collapsed" desc="Other Methods">
-    public void updateScannedArea() {
-        for (Point revealedLocation : human_bean.getScannedLocations()) {
-            if (!getVisiblePoints().contains(revealedLocation) && mapPoints.contains(revealedLocation)){
-                getVisiblePoints().add(revealedLocation);
-            }
-        }
+    /**
+     * @param mapPointsBeta the mapPointsBeta to set
+     */
+    public void setMapPointsBeta(int[][] mapPointsBeta) {
+        this.visiblePointsBeta = mapPointsBeta;
     }
 //</editor-fold>
 

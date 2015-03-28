@@ -36,7 +36,7 @@ public class Character {
     private MapDrawDataIntf mapDrawData;
     private int difficulty;
     private ArrayList<Point> revealedLocations;
-    private int STARTING_SCANNED_RADIUS = 2;
+    private int STARTING_SCANNED_RADIUS = 3;
     private int scanRadius = STARTING_SCANNED_RADIUS;
 //</editor-fold>
 

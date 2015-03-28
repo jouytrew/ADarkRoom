@@ -10,6 +10,6 @@ package adarkroom;
  * @author Benjamin
  */
 public enum ObjectType {
-    T_PLANET, STAR, ASTEROID, COMET, G_GIANT, NEBULA, MOON, ENEMY
+    T_PLANET, STAR, ASTEROID, COMET, G_GIANT, NEBULA, MOON
     
 }
