@@ -30,12 +30,11 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
      *      - Starting Asteroid with complimentary map (Need graphics designer)
      *      - Map Portals (Enter a new map when you step on a planet in the system Map)
      * - change:
-     *      - (Apparently done) visiblePoints from ArrayList to mapPoints[][] 2D Array that stores visibility 
+     *      - *Done* visiblePoints from ArrayList to mapPoints[][] 2D Array that stores visibility 
      * - suggestions?:
      *      - enter here
      */
 //</editor-fold>
-    
     
     //<editor-fold defaultstate="collapsed" desc="ADarkRoom(Not Really)Environment">
     public ADarkRoomEnvironment() {
@@ -44,7 +43,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
                 mapPoints.add(new Point(j, i));
             }
         }
-        
         updateScannedArea();
     }
 //</editor-fold>
@@ -61,7 +59,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         setMapPointsBeta(new int[grid.getColumns()][grid.getRows()]);
         
         setObjects(new ArrayList<>());
-//        visiblePoints = new ArrayList<>();
         
         for (int i = 0; i < grid.getColumns(); i++) {
             for (int j = 0; j < grid.getRows(); j++) {
@@ -82,21 +79,18 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            human_bean.setLocation(new Point(human_bean.getLocation().x - 1, human_bean.getLocation().y));
-            updateScannedArea();
+            move(e);
         } else if (e.getKeyCode() == KeyEvent.VK_W) {
-            human_bean.setLocation(new Point(human_bean.getLocation().x, human_bean.getLocation().y - 1));
-            updateScannedArea();
+            move(e);
         } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            human_bean.setLocation(new Point(human_bean.getLocation().x + 1, human_bean.getLocation().y));
-            updateScannedArea();
+            move(e);
         } else if (e.getKeyCode() == KeyEvent.VK_S) {
-            human_bean.setLocation(new Point(human_bean.getLocation().x, human_bean.getLocation().y + 1));
-            updateScannedArea();
+            move(e);
         } else if (e.getKeyCode() == KeyEvent.VK_B) {
             objects.add(new Object(ObjectType.T_PLANET, new Point(2, 2), this));
             objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
         }
+        
     }
 //</editor-fold>
 
@@ -143,31 +137,22 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
 //</editor-fold>
         for (Point mapPoint : mapPoints) {
             Point topLeft = grid.getCellSystemCoordinate(mapPoint);
-            if (visiblePointsBeta[mapPoint.getLocation().x][mapPoint.getLocation().y] == 1) {
+            if (visiblePoints[mapPoint.getLocation().x][mapPoint.getLocation().y] == 1) {
                 graphics.setColor(Color.BLACK);
             } else {
                 graphics.setColor(Color.GRAY);
             }
             graphics.fillRect(topLeft.x, topLeft.y, grid.getCellWidth(), grid.getCellHeight());
         }
-//        for (Point visiblePoint : getVisiblePoints()) {
-//            Point topLeft = grid.getCellSystemCoordinate(visiblePoint);
-//            graphics.setColor(Color.BLACK);
-//            graphics.fillRect(topLeft.x, topLeft.y, grid.getCellWidth(), grid.getCellHeight());
-//        }
         for (Object object : getObjects()) {
-            if (visiblePointsBeta[object.getLocation().x][object.getLocation().y] == 1) {
+            if (visiblePoints[object.getLocation().x][object.getLocation().y] == 1) {
                 object.paintObject(graphics);
             }
-//            if (visiblePoints.contains(object.getLocation())) {
-//                object.paintObject(graphics);
-//            }
         }
         if (human_bean != null/** && human_bean.getScannedLocations() != null*/) {
             human_bean.paint(graphics);
 //            human_bean.drawScanned(graphics);
         }
-        
     }
 //</editor-fold>
 //</editor-fold>
@@ -175,10 +160,10 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     //<editor-fold defaultstate="collapsed" desc="Fields">
     private Grid grid;
     private ArrayList<Point> mapPoints = new ArrayList<>();
-    private ArrayList<Point> visiblePoints = new ArrayList<>();
     private ArrayList<Object> objects = new ArrayList<>();
+    private int[][] visiblePoints = new int[grid.getColumns()][grid.getRows()];
     private Character human_bean;
-    private int[][] visiblePointsBeta = new int[grid.getColumns()][grid.getRows()];
+    
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="MapDrawDataIntf">
@@ -215,24 +200,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
         return grid.getRows();
     }
 //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Other Methods">
-//    public void updateScannedArea() {
-//        for (Point revealedLocation : human_bean.getScannedLocations()) {
-//            if (!getVisiblePoints().contains(revealedLocation) && mapPoints.contains(revealedLocation)){
-//                getVisiblePoints().add(revealedLocation);
-//            }
-//        }
-//    }
-    public void updateScannedArea() {
-        for (Point revealedLocation : human_bean.getScannedLocations()) {
-            if (mapPoints.contains(revealedLocation)) {
-                visiblePointsBeta[revealedLocation.x][revealedLocation.y] = 1;
-            }
-        }
-    }
-    
-//</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Setters/Getters">
     /**
@@ -257,20 +224,6 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     }
     
     /**
-     * @return the visiblePoints
-     */
-    public ArrayList<Point> getVisiblePoints() {
-        return visiblePoints;
-    }
-    
-    /**
-     * @param visiblePoints the visiblePoints to set
-     */
-    public void setVisiblePoints(ArrayList<Point> visiblePoints) {
-        this.visiblePoints = visiblePoints;
-    }
-    
-    /**
      * @return the objects
      */
     public ArrayList<Object> getObjects() {
@@ -288,14 +241,29 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
      * @return the mapPointsBeta
      */
     public int[][] getMapPointsBeta() {
-        return visiblePointsBeta;
+        return visiblePoints;
     }
 
     /**
      * @param mapPointsBeta the mapPointsBeta to set
      */
     public void setMapPointsBeta(int[][] mapPointsBeta) {
-        this.visiblePointsBeta = mapPointsBeta;
+        this.visiblePoints = mapPointsBeta;
+    }
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Other Methods">
+    public void updateScannedArea() {
+        for (Point revealedLocation : human_bean.getScannedLocations()) {
+            if (mapPoints.contains(revealedLocation)) {
+                visiblePoints[revealedLocation.x][revealedLocation.y] = 1;
+            }
+        }
+    }
+    
+    private void move(KeyEvent e) {
+        human_bean.move(e);
+        updateScannedArea();
     }
 //</editor-fold>
 

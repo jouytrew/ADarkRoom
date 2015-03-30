@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /*
@@ -119,8 +120,8 @@ public class Character {
     public ArrayList<Point> getScannedLocations() {
         //Neat awesome code that draws a diamond with the radius of whatever scanRadius is
         revealedLocations = new ArrayList<>();
-        for (int i = -scanRadius; i < scanRadius + 1; i++) {
-            for (int j = -(scanRadius - Math.abs(i)); j < (scanRadius - Math.abs(i) + 1); j++) {
+        for (int i = -scanRadius; i <= scanRadius; i++) {
+            for (int j = -(scanRadius - Math.abs(i)); j <= scanRadius - Math.abs(i); j++) {
                 revealedLocations.add(new Point(getLocation().x + j, getLocation().y + i));
             }
         }
@@ -138,5 +139,17 @@ public class Character {
         return safeRevealedLocations;
     }
 //</editor-fold>
+
+    void move(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            setLocation(new Point(getLocation().x - 1, getLocation().y));
+        } else if (e.getKeyCode() == KeyEvent.VK_W) {
+            setLocation(new Point(getLocation().x, getLocation().y - 1));
+        } else if (e.getKeyCode() == KeyEvent.VK_D) {
+            setLocation(new Point(getLocation().x + 1, getLocation().y));
+        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+            setLocation(new Point(getLocation().x, getLocation().y + 1));
+        }
+    }
 
 }
