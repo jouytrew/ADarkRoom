@@ -78,19 +78,12 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
     //<editor-fold defaultstate="collapsed" desc="keyPressedHandler">
     @Override
     public void keyPressedHandler(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            move(e);
-        } else if (e.getKeyCode() == KeyEvent.VK_W) {
-            move(e);
-        } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            move(e);
-        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+        if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_S) {
             move(e);
         } else if (e.getKeyCode() == KeyEvent.VK_B) {
             objects.add(new Object(ObjectType.T_PLANET, new Point(2, 2), this));
             objects.add(new Object(ObjectType.G_GIANT, new Point(5, 4), this));
         }
-        
     }
 //</editor-fold>
 
