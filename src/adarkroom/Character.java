@@ -28,6 +28,7 @@ public class Character {
         graphics.drawString("@", topLeft.x, topLeft.y + 3*mapDrawData.getCellHeight()/4);
         graphics.setColor(Color.BLACK);
         graphics.drawString("Difficulty " + getDifficulty(), 20, 20);
+        graphics.drawString("Fuel " + getFuel(), 100, 20);
     }
 //</editor-fold>
 
@@ -35,10 +36,11 @@ public class Character {
     private Point STARTING_POINT = new Point(50, 50);
     private Point location = STARTING_POINT;
     private MapDrawDataIntf mapDrawData;
-    private int difficulty;
     private ArrayList<Point> revealedLocations;
     private int STARTING_SCANNED_RADIUS = 3;
     private int scanRadius = STARTING_SCANNED_RADIUS;
+    private int difficulty;
+    private int fuel = 50;
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Setters/Getters">
@@ -105,6 +107,20 @@ public class Character {
     public void setRevealedLocations(ArrayList<Point> revealedLocations) {
         this.revealedLocations = revealedLocations;
     }
+
+    /**
+     * @return the fuel
+     */
+    public int getFuel() {
+        return fuel;
+    }
+
+    /**
+     * @param fuel the fuel to set
+     */
+    public void setFuel(int fuel) {
+        this.fuel = fuel;
+    }
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Other Methods">
@@ -138,18 +154,21 @@ public class Character {
         }
         return safeRevealedLocations;
     }
-//</editor-fold>
 
     void move(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            setLocation(new Point(getLocation().x - 1, getLocation().y));
-        } else if (e.getKeyCode() == KeyEvent.VK_W) {
-            setLocation(new Point(getLocation().x, getLocation().y - 1));
-        } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            setLocation(new Point(getLocation().x + 1, getLocation().y));
-        } else if (e.getKeyCode() == KeyEvent.VK_S) {
-            setLocation(new Point(getLocation().x, getLocation().y + 1));
+        if (fuel > 0){
+            if (e.getKeyCode() == KeyEvent.VK_A) {
+                setLocation(new Point(getLocation().x - 1, getLocation().y));
+            } else if (e.getKeyCode() == KeyEvent.VK_W) {
+                setLocation(new Point(getLocation().x, getLocation().y - 1));
+            } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                setLocation(new Point(getLocation().x + 1, getLocation().y));
+            } else if (e.getKeyCode() == KeyEvent.VK_S) {
+                setLocation(new Point(getLocation().x, getLocation().y + 1));
+            }
+        fuel--;
         }
     }
+//</editor-fold>
 
 }

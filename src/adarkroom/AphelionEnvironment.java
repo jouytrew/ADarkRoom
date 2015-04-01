@@ -20,13 +20,13 @@ import java.util.ArrayList;
  *
  * @author Benjamin
  */
-class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
+class AphelionEnvironment extends Environment implements MapDrawDataIntf {
     
     //<editor-fold defaultstate="collapsed" desc="Agenda">
     /**
      * V1.0 Alpha (27/03/15) (Finish the following by 03/04/15)
      * - implement the following:
-     *      - Fuel (A nice icon would be cool)
+     *      - *Done* (Without nice icon) Fuel (A nice icon would be cool)
      *      - Starting Asteroid with complimentary map (Need graphics designer)
      *      - Map Portals (Enter a new map when you step on a planet in the system Map)
      * - change:
@@ -36,8 +36,8 @@ class ADarkRoomEnvironment extends Environment implements MapDrawDataIntf {
      */
 //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="ADarkRoom(Not Really)Environment">
-    public ADarkRoomEnvironment() {
+    //<editor-fold defaultstate="collapsed" desc="AphelionEnvironment">
+    public AphelionEnvironment() {
         for (int i = 0; i < grid.getRows(); i++) {
             for (int j = 0; j < grid.getRows(); j++) {
                 mapPoints.add(new Point(j, i));

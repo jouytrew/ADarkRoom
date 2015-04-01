@@ -11,13 +11,13 @@ import environment.ApplicationStarter;
  *
  * @author Benjamin
  */
-public class ADarkRoom {
+public class Aphelion {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ApplicationStarter.run("ADarkRoom", new ADarkRoomEnvironment());
+        ApplicationStarter.run("Aphelion", new AphelionEnvironment());
     }
     
 }
